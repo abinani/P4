@@ -1,0 +1,16 @@
+# Defining domain objects in laravel
+
+# Create the database migration for the tables
+# Note that this does not create any Models/Domain classes
+php artisan migrate:make create_tables
+# This should create a file in the migrations folder
+# In the file update up/down methods to describe the tables you want to create
+#
+# Once you have defined them run
+# Stage the changes
+php artisan migrate --pretend
+# Run them. This actually creates the database tables.
+php artisan migrate
+
+# With the tables in place, now you can define the domain/model classes
+# Define the Domain classes in app/models/
