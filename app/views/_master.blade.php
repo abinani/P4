@@ -12,24 +12,47 @@
 
     <div class="container" role="main">
       <div class="header">
+        @if(Session::get('flash_message'))
+            <div class="alert alert-info">  
+              <a class="close" data-dismiss="alert">x</a>  
+              <strong>{{ Session::get('flash_message') }}</strong>
+            </div>  
+        @endif
+
         <nav role="navigation" class="navbar navbar-default">
             <ul class="nav navbar-nav">
               <li ><a href="/welcome">Home</a></li>
             </ul>
 
-            <form class="navbar-form navbar-right" role="form" method="GET" action="signup">
-                <button type="submit" class="btn btn-info">Sign up</button>
-            </form>
-            <form class="navbar-form navbar-right" role="form" method="POST" action="login">
-                {{Form::token()}}
-                <input type="text" placeholder="Email" name="email" class="form-control" >
-                <input type="password" placeholder="Password" name="password" class="form-control">
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
+
+          @if(Auth::check())
+                <form class="navbar-form navbar-right" role="form" method="GET" action="logout">
+                    <button type="submit" class="btn btn-info">Log out</button>
+                </form>
+          @else 
+                <form class="navbar-form navbar-right" role="form" method="GET" action="signup">
+                    <button type="submit" class="btn btn-info">Sign up</button>
+                </form>
+                <form class="navbar-form navbar-right" role="form" method="POST" action="login">
+                    {{Form::token()}}
+                    <input type="text" placeholder="Email" name="email" class="form-control" >
+                    <input type="password" placeholder="Password" name="password" class="form-control">
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                </form>
+          @endif
         </nav>
       </div>
 
-       @yield('content') 
+
+        @yield('content') 
+        
+        @if(Auth::check())
+            @yield('authorized_content') 
+        @else 
+             <div class="alert alert-danger">
+                 <strong>Please Log in to proceed further. </strong>
+             </div>
+        @endif
     </div>
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

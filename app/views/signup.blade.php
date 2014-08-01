@@ -1,20 +1,51 @@
 <!-- /app/views/signup.blade.php -->
-<h1>Sign up</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@yield('title',"Task manager")</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet">
+    @yield('head')
 
-{{ Form::open(array('url' => '/signup')) }}
+    <style>
 
-    First Name<br>
-    {{ Form::text('first_name') }}<br><br>
+     body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #eee;
+    }
 
-    Last Name<br>
-    {{ Form::text('last_name') }}<br><br>
+    .form-signin {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+    }
+    </style>
 
-    Email<br>
-    {{ Form::text('email') }}<br><br>
+</head>
+<body role="document" style="padding-top: 20px;">
 
-    Password:<br>
-    {{ Form::password('password') }}<br><br>
+    <div class="container">
+      <form class="form-signin" role="form" method="POST" action="signup">
+        {{Form::token()}}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" class="form-control" placeholder="First Name" name="first_name" required autofocus>
+        <input type="text" class="form-control" placeholder="Last Name" name="last_name" required autofocus>
+        <input type="email" class="form-control" placeholder="Email address" name="email" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+      </form>
+    </div>
 
-    {{ Form::submit('Submit') }}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-{{ Form::close() }}
+</body>
+</html>
+
+
