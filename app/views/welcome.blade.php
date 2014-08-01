@@ -14,7 +14,7 @@
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li><a class="btn btn-default" href="addtask" role="button" >Add Task</a></li>
+  <li><a href="#add_task" role="tab" data-toggle="tab">Add Task</a></li>
   <li class="active"><a href="#pending_tasks" role="tab" data-toggle="tab">Pending Tasks</a></li>
   <li><a href="#completed_tasks" role="tab" data-toggle="tab">Completed Tasks</a></li>
 </ul>
@@ -24,12 +24,12 @@
   <div class="tab-pane active" id="pending_tasks">
     
      @if ( isset($pending_tasks) && count($pending_tasks) > 0)
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>Description</th>
-              <th>DueDate</th>
-              <th>Update</th>
+              <th>Due Date</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +39,7 @@
               <td>{{$task->due_date}}</td>
               <td>
                   <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
-                    <button type="submit" class="btn btn-edit">Edit</button>
+                    <button type="submit" class="btn btn-edit">Update</button>
                   </form>
               </td>
             </tr>
@@ -53,11 +53,11 @@
   </div>
   <div class="tab-pane" id="completed_tasks">
      @if ( isset($completed_tasks) && count($completed_tasks) > 0)
-         <table class="table">
+         <table class="table table-striped">
           <thead>
             <tr>
               <th>Description</th>
-              <th>CompletionDate</th>
+              <th>Completion Date</th>
             </tr>
           </thead>
           <tbody>
@@ -73,5 +73,24 @@
         No completed tasks
      @endif
   </div>
+
+
+  <div class="tab-pane" id="add_task">
+      <br>
+      <form role="form" method="POST" action="/addtask">
+      {{Form::token()}}
+      <div class="form-group">
+        <label for="task_description">Task Description</label>
+        <input type="text" class="form-control" id="task_description" name="task_desc" placeholder="Task Description">
+      </div>
+      <div class="form-group">
+        <label for="due_date">Due Date</label>
+        <input type="datetime-local" class="form-control" id="due_date" name="due_date" 
+               value="{{(new DateTime('now'))->format("Y-m-d\TH:i")}}">
+      </div>
+       <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+  </div>
 </div>
+
 @stop

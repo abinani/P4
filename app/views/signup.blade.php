@@ -28,7 +28,7 @@
     <div class="container">
       <form class="form-signin" role="form" method="POST" action="signup">
         {{Form::token()}}
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">Please Sign Up</h2>
         <input type="text" class="form-control" placeholder="First Name" name="first_name" required autofocus>
         <input type="text" class="form-control" placeholder="Last Name" name="last_name" required autofocus>
         <input type="email" class="form-control" placeholder="Email address" name="email" required autofocus>

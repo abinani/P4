@@ -25,12 +25,11 @@ Route::get('welcome', function()
                  ->where('status',"<>", 'COMPLETED')->get();
         $completed_tasks = Task::where("user_id", "=", $user->id)
                  ->where('status',"=", 'COMPLETED')->get();
-        // return Pre::render($pending_tasks);
         return View::make('welcome')->with('pending_tasks', $pending_tasks)->with('completed_tasks',$completed_tasks);
     }
     else
     {
-        //return View::make('welcome');
+        return View::make('welcome');
     }
 });
 

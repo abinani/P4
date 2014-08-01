@@ -27,12 +27,14 @@
 
           @if(Auth::check())
                 <form class="navbar-form navbar-right" role="form" method="GET" action="logout">
-                    <button type="submit" class="btn btn-info">Log out</button>
+                    <button type="submit" class="btn btn-info">Log Out</button>
                 </form>
+                <p class="navbar-right navbar-text">Hello {{Auth::user()->firstname}} !</p>
           @else 
                 <form class="navbar-form navbar-right" role="form" method="GET" action="signup">
                     <button type="submit" class="btn btn-info">Sign up</button>
                 </form>
+                <p class="navbar-right navbar-text">-or-</p>
                 <form class="navbar-form navbar-right" role="form" method="POST" action="login">
                     {{Form::token()}}
                     <input type="text" placeholder="Email" name="email" class="form-control" >
