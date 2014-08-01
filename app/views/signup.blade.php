@@ -26,7 +26,18 @@
 <body role="document" style="padding-top: 20px;">
 
     <div class="container">
-      <form class="form-signin" role="form" method="POST" action="signup">
+        @if(Session::get('flash_message'))
+            <div class="alert alert-info">  
+              <a class="close" data-dismiss="alert">x</a>  
+              <strong>{{ Session::get('flash_message') }}</strong>
+              <br><br>
+              @foreach($errors->all() as $message) 
+                  <p class="bg-danger">{{$message}}</p>
+              @endforeach
+            
+            </div> 
+        @endif
+       <form class="form-signin" role="form" method="POST" action="signup">
         {{Form::token()}}
         <h2 class="form-signin-heading">Please Sign Up</h2>
         <input type="text" class="form-control" placeholder="First Name" name="first_name" required autofocus>

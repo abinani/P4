@@ -33,13 +33,6 @@ Route::get('welcome', function()
     }
 });
 
-/*
-Route::get('signup', function()
-{
-	return View::make('signup');
-});
- */
-
 Route::get('/signup',
     array(
         'before' => 'guest',
@@ -54,21 +47,41 @@ Route::post('/signup',
     array(
         'before' => 'csrf',
         function() {
-            $user = new User;
-            $user->firstname = Input::get('first_name');
-            $user->lastname  = Input::get('last_name');
-            $user->email     = Input::get('email');
-            $user->password  = Hash::make(Input::get('password'));
+            $rules = array(
+                'email' => 'email|unique:users,email',
+                'password' => 'min:6',
+                'first_name' => 'required', 
+                'last_name' => 'required', 
+            );
+            
+            $validator = Validator::make(Input::all(), $rules);
 
-            $user->save();
 
-            $credentials = Input::only($user->email, $user->password);
+            if($validator->fails())
+            {
+                return Redirect::to('/signup')
+                                ->with('flash_message', 'Sign up failed for the following reasons. Please try again.')
+                                ->withErrors($validator);
+            } 
+            else 
+            {
+                $credentials = Input::only('email', 'password');
 
-            if (Auth::attempt($credentials, $remember = true)) {
-                return Redirect::intended('/')->with('flash_message', 'Welcome Back!');
-            }
-            else {
-                return Redirect::to('/')->with('flash_message', 'Log in failed. Please try again.');
+                $user = new User;
+                $user->firstname = Input::get('first_name');
+                $user->lastname  = Input::get('last_name');
+                $user->email     = Input::get('email');
+                $user->password  = Hash::make(Input::get('password'));
+                $user->save();
+                
+                if (Auth::attempt($credentials, $remember = true)) {
+                    return Redirect::to('welcome')->with('flash_message', 'Welcome Back!');
+                }
+                else 
+                {
+                    return Redirect::to('/')->with('flash_message', 'Log in failed. Please try again.');
+                }
+
             }
         }
     )
@@ -116,22 +129,44 @@ Route::post('addtask',
     array(
         'before' => 'csrf', 
         function() {
-            $user = Auth::user();
-            
-            $task_desc = Input::get('task_desc'); 
-            $task_time = new DateTime(Input::get('due_date'));
+            if(Auth::check())
+            {
+                $rules = array(
+                    'task_desc' => 'required', 
+                    'due_date' => 'required', 
+                );
+                
+                $validator = Validator::make(Input::all(), $rules);
 
-            $task = new Task();
+                if($validator->fails())
+                {
+                    return Redirect::to('/welcome')
+                                    ->with('flash_message', 'Unable to add a task for the following reasons. Please try again.')
+                                    ->withErrors($validator);
+                } 
+                else 
+                {
 
-            $task->description = $task_desc;
-            $task->status = "PENDING";
-            $task->due_date = $task_time;
+                    $user = Auth::user();
+                    
+                    $task_desc = Input::get('task_desc'); 
+                    $task_time = new DateTime(Input::get('due_date'));
 
-            $task->user()->associate($user);
-            $task->save();
+                    $task = new Task();
+
+                    $task->description = $task_desc;
+                    $task->status = "PENDING";
+                    $task->due_date = $task_time;
+
+                    $task->user()->associate($user);
+                    $task->save();
 
 
-            return Redirect::to('/')->with('flash_message', "Successfully Added task for {$user->firstname}.");
+                    return Redirect::to('/')->with('flash_message', "Successfully Added task for {$user->firstname}.");
+                }
+            } else {
+                return Redirect::to('/');
+            }
         }
     )
 );
@@ -148,20 +183,42 @@ Route::post('edittask/{id}',
         'before' => 'csrf', 
         function($id) {
             
-            $user = Auth::user();
+            if(Auth::check())
+            {
+                $rules = array(
+                    'task_desc' => 'required', 
+                    'due_date' => 'required', 
+                );
+                $validator = Validator::make(Input::all(), $rules);
 
-            $task_desc = Input::get('task_desc'); 
-            $task_status = Input::get('status');
-            $task_time = new DateTime(Input::get('due_date'));
+                if($validator->fails())
+                {             
+                    return Redirect::to("/edittask/$id")
+                                    ->with('flash_message', 'Unable to update task for the following reasons. Please try again.')
+                                    ->withErrors($validator);
+                }
+                else
+                {
+                    $user = Auth::user();
 
-            DB::table('tasks')
-                ->where("id", $id)
-                ->update(array(
+                    $task_desc = Input::get('task_desc'); 
+                    $task_status = Input::get('status');
+                    $task_time = new DateTime(Input::get('due_date'));
+
+                    DB::table('tasks')
+                        ->where("id", $id)
+                        ->update(array(
                            'description'=> $task_desc, 
                            'due_date'   => $task_time,
                            'status'     => $task_status));
 
-            return Redirect::to('welcome')->with('flash_message', "Successfully Updated task for {$id}.");
+                    return Redirect::to('welcome')->with('flash_message', "Successfully Updated task for {$user->firstname}.");
+                }
+            }
+            else
+            {
+                return Redirect::to('/');
+            }
         }
     )
 );

@@ -1,8 +1,7 @@
-<!-- /app/views/signup.blade.php -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!-- /app/views/edittask.blade.php -->
+@extends('_master')
+
+@section('head')
     <title>@yield('title',"Task manager")</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet">
     @yield('head')
@@ -12,21 +11,23 @@
      body {
       padding-top: 40px;
       padding-bottom: 40px;
-      background-color: #eee;
     }
 
-    .form-signin {
-      max-width: 330px;
+    .form-update {
+      max-width: 730px;
       padding: 15px;
       margin: 0 auto;
     }
     </style>
-
-</head>
-<body role="document" style="padding-top: 20px;">
+@stop
 
 @section('authorized_content')
-    <div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Update Task</h3>
+  </div>
+  <div class="panel-body">
+    <div class="container form-update">
       <form role="form" method="POST" action="/edittask/{{$task->id}}">
       {{Form::token()}}
       <div class="form-group">
@@ -51,10 +52,11 @@
           @endif
        </select>
       </div>
-       <button type="submit" class="btn btn-default">Edit</button>
+       <button type="submit" class="btn btn-default">Update</button>
       </form>
     </div>
-
+  </div>
+</div>    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 @stop
@@ -66,8 +68,3 @@
 
 @stop
  
-@include("_authenticate")
-</body>
-</html>
-
-

@@ -16,7 +16,11 @@
             <div class="alert alert-info">  
               <a class="close" data-dismiss="alert">x</a>  
               <strong>{{ Session::get('flash_message') }}</strong>
-            </div>  
+               @foreach($errors->all() as $message) 
+                  <p class="bg-danger">{{$message}}</p>
+               @endforeach
+            </div> 
+
         @endif
 
         <nav role="navigation" class="navbar navbar-default">
@@ -26,16 +30,16 @@
 
 
           @if(Auth::check())
-                <form class="navbar-form navbar-right" role="form" method="GET" action="logout">
+                <form class="navbar-form navbar-right" role="form" method="GET" action="/logout">
                     <button type="submit" class="btn btn-info">Log Out</button>
                 </form>
                 <p class="navbar-right navbar-text">Hello {{Auth::user()->firstname}} !</p>
           @else 
-                <form class="navbar-form navbar-right" role="form" method="GET" action="signup">
+                <form class="navbar-form navbar-right" role="form" method="GET" action="/signup">
                     <button type="submit" class="btn btn-info">Sign up</button>
                 </form>
                 <p class="navbar-right navbar-text">-or-</p>
-                <form class="navbar-form navbar-right" role="form" method="POST" action="login">
+                <form class="navbar-form navbar-right" role="form" method="POST" action="/login">
                     {{Form::token()}}
                     <input type="text" placeholder="Email" name="email" class="form-control" >
                     <input type="password" placeholder="Password" name="password" class="form-control">
