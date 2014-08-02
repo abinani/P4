@@ -10,6 +10,8 @@ The project a simplle taskmanager app that allows:
 * Signup/ Signin into the app
 * Each user can create their own tasklist.
 * Modify the tasklist.
+# Same users
+* login: guest@dwa15.com password:guest123
 
 # Outside code
 * Bootstrap: http://getbootstrap.com/
