@@ -29,18 +29,28 @@
             <tr>
               <th>Description</th>
               <th>Due Date</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
             @foreach ($pending_tasks as $task)
             <tr>
               <td>{{$task->description}}</td>
-              <td>{{$task->due_date}}</td>
               <td>
-                  <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
-                    <button type="submit" class="btn btn-edit">Update</button>
-                  </form>
+                <ul class="list-inline">
+                    <li>
+                        {{$task->due_date}}
+                    </li>
+                    <li>
+                      <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
+                        <button type="submit" class="btn btn-edit">Update</button>
+                      </form>
+                   </li>
+                   <li>  
+                      <form class="form-inline" role="form" method="GET" action="deletetask/{{$task->id}}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </li>
+                </ul>
               </td>
             </tr>
             @endforeach

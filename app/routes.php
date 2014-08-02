@@ -223,6 +223,23 @@ Route::get('edittask/{id}',function($id)
     return View::make('edittask')->with('task', $task);
 });
 
+Route::get('deletetask/{id}',function($id)
+{
+    if(Auth::check())
+    {
+        $user = Auth::user();
+        DB::table('tasks')
+            ->where("id", $id)
+            ->delete();
+        
+        return Redirect::to('welcome')->with('flash_message', "Successfully Deleted task for {$user->firstname}.");
+    }
+    else
+    {
+        return Redirect::to('/');
+    }
+});
+
 Route::post('edittask/{id}', 
     array(
         'before' => 'csrf', 
