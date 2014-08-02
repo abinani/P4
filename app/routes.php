@@ -120,11 +120,11 @@ Route::post('/signup',
                 $user->save();
                 
                 if (Auth::attempt($credentials, $remember = true)) {
-                    return Redirect::to('welcome')->with('flash_message', 'Welcome Back!');
+                    return Redirect::to('welcome')->with('flash_message', "Welcome $user->firstname!");
                 }
                 else 
                 {
-                    return Redirect::to('/')->with('flash_message', 'Log in failed. Please try again.');
+                    return Redirect::to('/')->with('flash_message', 'Signup failed. Please try again.');
                 }
 
             }
