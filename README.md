@@ -13,6 +13,7 @@ The project a simplle taskmanager app that allows:
 
 # Sample users
 * login: guest@dwa15.com password:guest123
+* login: guest2@dwa15.com password:guest123
 
 # Additional Info
 The App uses two tables. A Users table and a Tasks table, with 1-to-many relationship from task to users.
