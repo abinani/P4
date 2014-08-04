@@ -244,16 +244,29 @@ Route::get('edittask/{id}',function($id)
    }
 });
 
+
 Route::get('deletetask/{id}',function($id)
 {
     if(Auth::check())
     {
-        $user = Auth::user();
-        DB::table('tasks')
-            ->where("id", $id)
-            ->delete();
-        
-        return Redirect::to('welcome')->with('flash_message', "Successfully Deleted task for {$user->firstname}.");
+        $rules = array( 'id' => 'exists:tasks',);
+        $validator = Validator::make(array('id'=> $id), $rules);
+
+        if($validator->fails())
+        {
+            return Redirect::to('welcome')
+                   ->with('flash_message', 'Unable to delete task for the following reasons. Please try again.')
+                   ->withErrors($validator);
+        }
+        else
+        {
+            $user = Auth::user();
+            DB::table('tasks')
+                ->where("id", $id)
+                ->delete();
+
+            return Redirect::to('welcome')->with('flash_message', "Successfully Deleted task for {$user->firstname}.");
+        }
     }
     else
     {
