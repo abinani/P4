@@ -218,9 +218,30 @@ Route::post('addtask',
 
 Route::get('edittask/{id}',function($id)
 {
-    $task = Task::where("id", "=", $id)->first();
-    
-    return View::make('edittask')->with('task', $task);
+   if(Auth::check())
+   {
+        $rules = array(
+            'id' => 'exists:tasks',
+        );
+        $validator = Validator::make(array('id'=> $id), $rules);
+
+        if($validator->fails())
+        {             
+            return Redirect::to('welcome')
+                            ->with('flash_message', 'Unable to update task for the following reasons. Please try again.')
+                            ->withErrors($validator);
+        }
+        else
+        {
+            $task = Task::where("id", "=", $id)->first();
+            return View::make('edittask')->with('task', $task);
+
+        }
+   }
+   else
+   {
+       return Redirect::to('/');
+   }
 });
 
 Route::get('deletetask/{id}',function($id)
@@ -241,6 +262,7 @@ Route::get('deletetask/{id}',function($id)
 });
 
 Route::post('edittask/{id}', 
+
     array(
         'before' => 'csrf', 
         function($id) {
@@ -250,8 +272,9 @@ Route::post('edittask/{id}',
                 $rules = array(
                     'task_desc' => 'required', 
                     'due_date' => 'required', 
+                    'id'       =>'exists:tasks',
                 );
-                $validator = Validator::make(Input::all(), $rules);
+                $validator = Validator::make(array_merge(Input::all(), array('id'=> $id)), $rules);
 
                 if($validator->fails())
                 {             
