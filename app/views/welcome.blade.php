@@ -82,7 +82,23 @@
               <td>
                   {{$task->created_at}}
               </td>
-              <td>{{$task->completion_date}}</td>
+              <td>
+                <ul class="list-inline">
+                    <li>
+                   {{$task->completion_date}}
+                   </li>
+                    <li>
+                      <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
+                        <button type="submit" class="btn btn-edit">Update</button>
+                      </form>
+                   </li>
+                   <li>  
+                      <form class="form-inline" role="form" method="GET" action="deletetask/{{$task->id}}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </li>
+                </ul>
+              </td>
             </tr>
             @endforeach
           </tbody>

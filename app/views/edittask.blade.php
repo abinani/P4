@@ -54,10 +54,10 @@
           value="{{ (new DateTime($task->due_date))->format("Y-m-d\TH:i")}}">
       </div>
 
-      <div class="form-group" style="display:none" id="completion_date_group">
+      <div class="form-group" id="completion_date_group">
         <label for="completion_date">Completion Date</label>
         <input type="datetime-local" class="form-control" id="completion_date" name="completion_date" 
-          value="{{ date("Y-m-d\TH:i", time())}}">
+          value="{{ (new DateTime($task->completion_date))->format("Y-m-d\TH:i")}}">
       </div>
 
        <button type="submit" class="btn btn-default">Update</button>
@@ -68,16 +68,20 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
    <script>
-      $("#status").click(function() { 
-          if($('#status').val() == "COMPLETED")
-          {
-            $("#completion_date_group").show();
-          }
-          else
-          {
-            $("#completion_date_group").hide();
-          }
-        });
+         function show_completion_date()
+         { 
+              if($('#status').val() == "COMPLETED")
+              {
+                $("#completion_date_group").show();
+              }
+              else
+              {
+                $("#completion_date_group").hide();
+              }
+         }
+         $().ready(function (e) {show_completion_date();});
+         $("#status").click(function(){show_completion_date();});
+
    </script>
 @stop
  
