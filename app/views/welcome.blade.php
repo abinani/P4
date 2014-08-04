@@ -17,6 +17,7 @@
   <li><a href="#add_task" role="tab" data-toggle="tab">Add Task</a></li>
   <li class="active"><a href="#pending_tasks" role="tab" data-toggle="tab">Pending Tasks</a></li>
   <li><a href="#completed_tasks" role="tab" data-toggle="tab">Completed Tasks</a></li>
+  <li><a href="#all_tasks" role="tab" data-toggle="tab">All Tasks</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -108,6 +109,71 @@
      @endif
   </div>
 
+  <div class="tab-pane" id="all_tasks">
+     <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Creation Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+            @foreach ($completed_tasks as $task)
+             <tr class="success">
+              <td>{{$task->description}}</td>
+              <td>
+                  {{$task->created_at}}
+              </td>
+              <td>
+                <ul class="list-inline">
+                    <li>
+                      Completed
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                   </li>
+                    <li>
+                      <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
+                        <button type="submit" class="btn btn-edit">Update</button>
+                      </form>
+                   </li>
+                   <li>  
+                      <form class="form-inline" role="form" method="GET" action="deletetask/{{$task->id}}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </li>
+                </ul>
+             </td>
+            </tr>
+            @endforeach
+            @foreach ($pending_tasks as $task)
+             <tr class="active">
+              <td>{{$task->description}}</td>
+              <td>
+                  {{$task->created_at}}
+              </td>
+              <td>
+                <ul class="list-inline">
+                    <li>
+                      Pending&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                   </li>
+                    <li>
+                      <form class="form-inline" role="form" method="GET" action="edittask/{{$task->id}}">
+                        <button type="submit" class="btn btn-edit">Update</button>
+                      </form>
+                   </li>
+                   <li>  
+                      <form class="form-inline" role="form" method="GET" action="deletetask/{{$task->id}}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            @endforeach
+      </tbody>
+    </table>
+  </div>
 
   <div class="tab-pane" id="add_task">
       <br>
