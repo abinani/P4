@@ -82,7 +82,7 @@
               <td>
                   {{$task->created_at}}
               </td>
-              <td>{{$task->updated_at}}</td>
+              <td>{{$task->completion_date}}</td>
             </tr>
             @endforeach
           </tbody>

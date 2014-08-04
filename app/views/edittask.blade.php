@@ -34,11 +34,6 @@
         <label for="task_description">Task Description</label>
         <input type="text" class="form-control" id="task_description" name="task_desc" value="{{$task->description}}"> 
       </div>
-      <div class="form-group">
-        <label for="due_date">Due Date</label>
-        <input type="datetime-local" class="form-control" id="due_date" name="due_date" 
-          value="{{ (new DateTime($task->due_date))->format("Y-m-d\TH:i")}}">
-      </div>
 
       <div class="form-group">
        <label for="status">Status</label>
@@ -52,6 +47,19 @@
           @endif
        </select>
       </div>
+
+      <div class="form-group">
+        <label for="due_date">Due Date</label>
+        <input type="datetime-local" class="form-control" id="due_date" name="due_date" 
+          value="{{ (new DateTime($task->due_date))->format("Y-m-d\TH:i")}}">
+      </div>
+
+      <div class="form-group" style="display:none" id="completion_date_group">
+        <label for="completion_date">Completion Date</label>
+        <input type="datetime-local" class="form-control" id="completion_date" name="completion_date" 
+          value="{{ date("Y-m-d\TH:i", time())}}">
+      </div>
+
        <button type="submit" class="btn btn-default">Update</button>
       </form>
     </div>
@@ -59,6 +67,18 @@
 </div>    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   <script>
+      $("#status").click(function() { 
+          if($('#status').val() == "COMPLETED")
+          {
+            $("#completion_date_group").show();
+          }
+          else
+          {
+            $("#completion_date_group").hide();
+          }
+        });
+   </script>
 @stop
  
 @section('non_authorized_content')

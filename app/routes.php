@@ -302,14 +302,27 @@ Route::post('edittask/{id}',
                     $task_desc = Input::get('task_desc'); 
                     $task_status = Input::get('status');
                     $task_time = new DateTime(Input::get('due_date'));
-
-                    DB::table('tasks')
-                        ->where("id", $id)
-                        ->update(array(
-                           'description'=> $task_desc, 
-                           'due_date'   => $task_time,
-                           'status'     => $task_status));
-
+                    
+                    if($task_status == "COMPLETED")
+                    {
+                        $completion_time = new DateTime(Input::get('completion_date'));
+                        DB::table('tasks')
+                            ->where("id", $id)
+                            ->update(array(
+                               'description'=> $task_desc, 
+                               'due_date'   => $task_time,
+                               'completion_date'   => $completion_time,
+                               'status'     => $task_status));
+                    }
+                    else
+                    {
+                        DB::table('tasks')
+                            ->where("id", $id)
+                            ->update(array(
+                               'description'=> $task_desc, 
+                               'due_date'   => $task_time,
+                               'status'     => $task_status));
+                    }
                     return Redirect::to('welcome')->with('flash_message', "Successfully Updated task for {$user->firstname}.");
                 }
             }
