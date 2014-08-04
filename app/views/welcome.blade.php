@@ -28,6 +28,7 @@
           <thead>
             <tr>
               <th>Description</th>
+              <th>Creation Date</th>
               <th>Due Date</th>
             </tr>
           </thead>
@@ -36,6 +37,9 @@
             <tr>
               <td>{{$task->description}}</td>
               <td>
+                  {{$task->created_at}}
+               </td>
+               <td>
                 <ul class="list-inline">
                     <li>
                         {{$task->due_date}}
@@ -67,6 +71,7 @@
           <thead>
             <tr>
               <th>Description</th>
+              <th>Creation Date</th>
               <th>Completion Date</th>
             </tr>
           </thead>
@@ -74,6 +79,9 @@
             @foreach ($completed_tasks as $task)
             <tr>
               <td>{{$task->description}}</td>
+              <td>
+                  {{$task->created_at}}
+              </td>
               <td>{{$task->updated_at}}</td>
             </tr>
             @endforeach
