@@ -119,6 +119,7 @@
         </tr>
       </thead>
       <tbody>
+            @if ( isset($completed_tasks))
             @foreach ($completed_tasks as $task)
              <tr class="success">
               <td>{{$task->description}}</td>
@@ -145,6 +146,8 @@
              </td>
             </tr>
             @endforeach
+            @endif
+            @if ( isset($pending_tasks))
             @foreach ($pending_tasks as $task)
              <tr class="active">
               <td>{{$task->description}}</td>
@@ -171,6 +174,7 @@
               </td>
             </tr>
             @endforeach
+            @endif
       </tbody>
     </table>
   </div>
